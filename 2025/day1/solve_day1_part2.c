@@ -9,8 +9,8 @@
 /*    |  $$$$$$/ /$$$$$$| $$ \/  | $$| $$  | $$| $$  | $$| $$$$$$$/          */
 /*     \______/ |______/|__/     |__/|__/  |__/|__/  |__/|_______/           */
 /*                                                                           */
-/*    File: main.c                                                           */
-/*     Program entry point                                                   */
+/*    File: solve_day1_part2.c                                               */
+/*     Part 2 of day 1 problem solve                                         */
 /*                                                                           */
 /* Free Palestine, fuck fascists                                             */
 /*                               Made with love and coffee by SimardCodeTard */
@@ -18,33 +18,27 @@
 
 #include "day1_header.h"
 
-int	main(int ac, char **av)
+uint16_t	solve_day1_part2(t_rotation *rotations, uint16_t nlines)
 {
-	t_rotation *rotations;
-	uint16_t		result;
-	uint16_t	nlines;
-	int			part;
+	int32_t		dial_value;
+	uint16_t	result;
+	size_t		i;
 
-	if (ac < 4)
+	result = 0;
+	dial_value = 50;
+	i = 0;
+	while (i < nlines)
 	{
-		fprintf(stderr, "Usage : [program] [input file] [lines count] [part]\n");
-		return (EXIT_FAILURE);
+		result += (rotations[i].value / 99);
+		if (rotations[i].direction == RIGHT)
+			dial_value += rotations[i].value;
+		else
+			dial_value -= rotations[i].value;
+		result += (dial_value % 100 != dial_value);
+		dial_value %= 100;
+		if (dial_value == 0)
+			result++;
+		i++;
 	}
-	nlines = atoi(av[2]);
-	part = atoi(av[3]);
-	rotations = parse_input(av[1], nlines);
-	if (!rotations)
-		return (EXIT_FAILURE);
-	if (part == 1)
-		result = solve_day1(rotations, nlines);
-	else if (part == 2)
-		result = solve_day1_part2(rotations, nlines);
-	else
-	{
-		fprintf(stderr, "Invalid part, use 1 or 2\n");
-		return (EXIT_FAILURE);
-	}
-	printf("Result : %d\n", result);
-	free(rotations);
-	return (EXIT_SUCCESS);
+	return (result);
 }

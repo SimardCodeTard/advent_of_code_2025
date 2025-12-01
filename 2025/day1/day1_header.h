@@ -43,4 +43,7 @@ t_rotation		*parse_input(const char * path, uint16_t nlines);
 /* solve_day1.c */
 uint16_t		solve_day1(t_rotation *rotations, uint16_t nlines);
 
+/* solve_day1_part2.c */
+uint16_t		solve_day1_part2(t_rotation *rotations, uint16_t nlines);
+
 #endif
